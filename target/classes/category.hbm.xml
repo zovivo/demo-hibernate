@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="com.hibernate.entity.Category" table="category">
+        <cache usage = "read-write"/>
+        <id name="id">
+            <generator class="native"></generator>
+        </id>
+        <property name="name" column="name" type="java.lang.String" ></property>
+
+        <!-- default inverse = false -->
+        <list name="products" cascade="all" lazy="true" batch-size="2" fetch="select" inverse="false">
+<!--            <cache usage="transactional" region="RegionName"  include="all"/>-->
+            <key column="categoryId"/>
+            <list-index column="id" base="1"/>
+            <one-to-many class="com.hibernate.entity.Product"/>
+        </list>
+    </class>
+</hibernate-mapping>
